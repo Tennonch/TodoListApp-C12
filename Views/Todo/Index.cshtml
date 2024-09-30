@@ -1,0 +1,39 @@
+﻿@model List<TodoListApp_C12.Models.TodoItem>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>To-Do List</h2>
+
+        <!-- Форма для додавання нового завдання -->
+        <form asp-action="Add" method="post">
+            <input name="task" type="text" placeholder="Add new task" required>
+            <button type="submit">Add Task</button>
+        </form>
+
+        <!-- Список завдань -->
+        <ul id="task-list">
+            @foreach (var task in Model)
+            {
+                <li class="@(task.IsCompleted ? "completed" : "")">
+                    @task.Task
+                    <form asp-action="ToggleComplete" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@task.Id" />
+                        <button type="submit">@(!task.IsCompleted ? "Complete" : "Undo")</button>
+                    </form>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <!-- Підключення JavaScript для LocalStorage -->
+    <script src="~/js/site.js"></script>
+</body>
+</html>
